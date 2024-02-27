@@ -1,0 +1,12 @@
+[
+    {
+        "WebAppsName": "WebApp1",
+        "WebAppsURL": "sample.com",
+        "AppName": "スマホ版"
+    },
+    {
+        "WebAppsName": "WebApp2",
+        "WebAppsURL": "sample.com/path1/path2",
+        "AppName": "PC版"
+    }
+]
