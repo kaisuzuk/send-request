@@ -1,6 +1,6 @@
 [
     {
-        "WebAppsName": "WebApp1",
-        "Path": "/path1/path2/api/health"
+        "web_apps_name": "WebApp1",
+        "path": "/path1/api/health"
     }
 ]

@@ -1,5 +1,4 @@
 use async_std::task;
-use libs::many_requests;
 use serde::{Deserialize, Serialize};
 use std::fs;
 
@@ -11,15 +10,16 @@ pub const DEFAULT_HEALTH_CHECK_PATH: &str = "/api/health";
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebAppsInfo {
-    WebAppsName: String,
-    WebAppsURL: String,
-    AppName: String,
+    web_apps_name: String,
+    web_apps_url: String,
+    app_name: String,
+    app_version: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct HealthCheckPath {
-    WebAppsName: String,
-    Path: String,
+    web_apps_name: String,
+    path: String,
 }
 
 fn main() {
@@ -35,23 +35,19 @@ fn main() {
     let webapps: Vec<WebAppsInfo> =
         serde_json::from_str(&fs).expect("Failed to parse the webapps-info json file.");
 
-    let mut urls = vec![];
+    let results = task::block_on(libs::many_requests(
+        webapps.clone(),
+        health_check_paths.clone(),
+    ));
 
-    for webapp in webapps {
-        urls.push(libs::health_check_url(webapp, health_check_paths.clone()));
-    }
-
-    let results = task::block_on(many_requests(urls));
-
-    for result in &results {
-        match result {
-            Ok(response) => {
-                println!("{}", response.status());
-            }
-            Err(err) => {
-                println!("NG");
-                eprintln!("Err {}", err);
-            }
-        }
+    println!("WebAppsName,WebAppsURL,AppName,AppVersion");
+    for result in results {
+        println!(
+            "{},{},{},{}",
+            result.web_apps_name,
+            result.web_apps_url,
+            result.app_name,
+            result.app_version.unwrap_or("".to_string())
+        );
     }
 }

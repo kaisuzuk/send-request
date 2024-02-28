@@ -1,12 +1,12 @@
 [
     {
-        "WebAppsName": "WebApp1",
-        "WebAppsURL": "sample.com",
-        "AppName": "スマホ版"
+        "web_apps_name": "WebApp1",
+        "web_apps_url": "example.com",
+        "app_name": "スマホ版"
     },
     {
-        "WebAppsName": "WebApp2",
-        "WebAppsURL": "sample.com/path1/path2",
-        "AppName": "PC版"
+        "web_apps_name": "WebApp2",
+        "web_apps_url": "example.com/path2",
+        "app_name": "PC版"
     }
 ]
